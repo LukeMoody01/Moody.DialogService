@@ -1,0 +1,44 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.31911.260
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "e2e", "e2e", "{F92F4BF9-EE40-4273-A6EA-B80D00211E41}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{1AB52468-83BF-497D-B785-6EF8D8C66337}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Moody.WPF", "MoodyWPF\Moody.WPF.csproj", "{F6A52A7B-8654-4B1E-95D8-FCA4DA160C0F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Moody.DialogService", "Moody.DialogService\Moody.DialogService.csproj", "{A49F9E3D-F4A3-4F84-B1A8-C4899B735710}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B5113125-6AEC-4E1D-A178-7649EDEF2EB4}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F6A52A7B-8654-4B1E-95D8-FCA4DA160C0F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6A52A7B-8654-4B1E-95D8-FCA4DA160C0F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6A52A7B-8654-4B1E-95D8-FCA4DA160C0F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6A52A7B-8654-4B1E-95D8-FCA4DA160C0F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A49F9E3D-F4A3-4F84-B1A8-C4899B735710}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A49F9E3D-F4A3-4F84-B1A8-C4899B735710}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A49F9E3D-F4A3-4F84-B1A8-C4899B735710}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A49F9E3D-F4A3-4F84-B1A8-C4899B735710}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{F6A52A7B-8654-4B1E-95D8-FCA4DA160C0F} = {F92F4BF9-EE40-4273-A6EA-B80D00211E41}
+		{A49F9E3D-F4A3-4F84-B1A8-C4899B735710} = {1AB52468-83BF-497D-B785-6EF8D8C66337}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {68357ED5-F203-4AFD-A41C-94C8B85ACFC3}
+	EndGlobalSection
+EndGlobal
