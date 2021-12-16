@@ -1,6 +1,5 @@
 ﻿using Moody.DialogService;
 using Moody.WPF.Commands;
-using System;
 using System.Windows.Input;
 
 namespace Moody.WPF
@@ -21,10 +20,10 @@ namespace Moody.WPF
 
         private void SetupDialogSettings()
         {
-            _dialogService.SetDialogSettings(new DialogServiceSettings()
+            _dialogService.SetDefaultDialogSettings(new DefaultDialogSettings()
             {
-                DialogWindowStyle = System.Windows.WindowStyle.None,
-                DialogWindowTitle = "Dialog One Title",
+                DialogWindowDefaultStyle = System.Windows.WindowStyle.None,
+                DialogWindowDefaultTitle = "Window",
             });
         }
 

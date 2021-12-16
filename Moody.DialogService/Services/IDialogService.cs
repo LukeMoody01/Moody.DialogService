@@ -39,12 +39,12 @@ namespace Moody.DialogService
 
         //
         // Summary:
-        //     Set's the DialogServiceSettings
-        void SetDialogSettings(DialogServiceSettings dialogSettings);
+        //     Set's the DefaultDialogSettings
+        void SetDefaultDialogSettings(DefaultDialogSettings dialogSettings);
 
         //
         // Summary:
-        //     Get's the DialogServiceSettings
-        DialogServiceSettings GetDialogSettings(DialogServiceSettings dialogSettings);
+        //     Get's the DefaultDialogSettings
+        DefaultDialogSettings GetDefaultDialogSettings(DefaultDialogSettings dialogSettings);
     }
 }

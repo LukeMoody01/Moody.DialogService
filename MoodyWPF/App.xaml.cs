@@ -32,8 +32,10 @@ namespace Moody.WPF
             services.AddSingleton<IDialogService, DialogService.DialogService>();
             services.AddScoped<MainWindowViewModel>();
 
-            // You can register your dialogs like this, or through the module attribute
+            // You can register your dialogs like this, or through the module attribute (Seen below)
             DialogService.DialogService.RegisterDialog<DialogOne, DialogOneViewModel>();
+
+            DialogService.DialogService.AutoRegisterDialogs<App>();
         }
     }
 }

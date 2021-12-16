@@ -1,10 +1,13 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Moody.DialogControls;
 using Moody.DialogService.Attributes;
+using Moody.DialogService.Settings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Windows;
+using System.Windows.Controls;
 
 namespace Moody.DialogService
 {
@@ -16,7 +19,7 @@ namespace Moody.DialogService
 
         public object? ReturnParameters { get; set; }
 
-        public DialogServiceSettings Settings { get; set; } = new DialogServiceSettings();
+        public DefaultDialogSettings Settings { get; set; } = new DefaultDialogSettings();
 
         public DialogService(IServiceProvider serviceProvider)
         {
@@ -36,7 +39,7 @@ namespace Moody.DialogService
 
             foreach (var exportedType in type.GetTypeInfo().Assembly.DefinedTypes.Where(t => t.GetCustomAttribute<DialogModuleAttribute>() != null))
             {
-                var vm = Type.GetType($"{exportedType.Namespace}ViewModel");
+                var vm = Type.GetType($"{exportedType.FullName}ViewModel, {exportedType.Assembly.FullName}");
 
                 if (vm == null) throw new Exception($"ViewModel not found for {exportedType.Name} at {exportedType.Namespace}ViewModel. Make sure it follows the MVVM pattern (Example, namespace.thing.Page1 -> namespace.thing.Page1ViewModel).");
 
@@ -78,9 +81,9 @@ namespace Moody.DialogService
 
         public void SetReturnParameters<TReturn>(object? returnParameters) => ReturnParameters = returnParameters;
 
-        public void SetDialogSettings(DialogServiceSettings dialogSettings) => Settings = dialogSettings;
+        public void SetDefaultDialogSettings(DefaultDialogSettings dialogSettings) => Settings = dialogSettings;
 
-        public DialogServiceSettings GetDialogSettings(DialogServiceSettings dialogSettings) => Settings;
+        public DefaultDialogSettings GetDefaultDialogSettings(DefaultDialogSettings dialogSettings) => Settings;
 
         private void ShowDialogInternal(Type type, Action<string>? closeCallback)
         {
@@ -104,9 +107,21 @@ namespace Moody.DialogService
 
             var content = ActivatorUtilities.CreateInstance(_serviceProvider, type);
 
+            if (content is FrameworkElement viewForName && 
+                DialogSettings.GetDialogName(viewForName) != null)
+            {
+                dialog.Title = DialogSettings.GetDialogName(viewForName);
+            }
+
+            if (content is FrameworkElement viewForStyle
+                && DialogSettings.GetWindowStyle(viewForStyle) != WindowStyle.SingleBorderWindow)
+            {
+                dialog.WindowStyle = DialogSettings.GetWindowStyle(viewForStyle);
+            }
+
             dialog.Content = content;
-            dialog.WindowStyle = Settings.DialogWindowStyle;
-            dialog.Title = Settings.DialogWindowTitle;
+            dialog.WindowStyle = dialog.WindowStyle == WindowStyle.SingleBorderWindow ? Settings.DialogWindowDefaultStyle : dialog.WindowStyle;
+            dialog.Title = dialog.Title ?? Settings.DialogWindowDefaultTitle;
 
             dialog.ShowDialog();
         }
