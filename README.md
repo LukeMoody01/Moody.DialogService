@@ -96,7 +96,7 @@ public void ShowSomeDialogThatReturns()
     var expectedObject = _dialogService.ShowDialog<SomeDialogViewModel, bool>();
 }
 
-//Dialog
+//DialogViewModel
 public void SomeMethodInDialog()
 {
     _dialogService.ReturnParameters = true;
