@@ -13,11 +13,8 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
+    <PackageReference Include="Moody.DialogService" Version="1.0.0" />
     <PackageReference Include="Ninject" Version="3.3.4" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Moody.DialogService\Moody.DialogService.csproj" />
   </ItemGroup>
 
 </Project>
