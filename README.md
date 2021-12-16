@@ -18,11 +18,11 @@ You can register the dialogs in the App.xaml.cs
 You have 2 options on registering Dialogs
 #### Manual Register
 ```c#
-DialogService.DialogService.RegisterDialog<DialogOne, DialogOneViewModel>();
+DialogService.RegisterDialog<DialogOne, DialogOneViewModel>();
 ```
 #### Automatic Register
 ```c#
-DialogService.DialogService.AutoRegisterDialogs<App>();
+DialogService.AutoRegisterDialogs<App>();
 ```
 The reason we pass through App, is so that the AutoRegister knows what assembly to look into.
 NOTE: Your "Window/Dialog" CANNOT be a window. It will have to be a UserControl or something like that.
