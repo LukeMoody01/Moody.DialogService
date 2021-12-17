@@ -25,6 +25,7 @@ DialogService.RegisterDialog<DialogOne, DialogOneViewModel>();
 DialogService.AutoRegisterDialogs<App>();
 ```
 The reason we pass through App, is so that the AutoRegister knows what assembly to look into.
+
 NOTE: Your "Window/Dialog" CANNOT be a window. It will have to be a UserControl or something like that.
 This is because the Service uses a "DialogShell" and injects the Content into the shell content.
 
