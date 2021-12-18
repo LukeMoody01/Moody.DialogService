@@ -5,12 +5,16 @@ namespace Moody.Core.Services
 {
     public interface IDialogService
     {
+        //
+        // Summary:
+        //     Holds the value of the given return parameters
         object? ReturnParameters { get; set; }
 
         //
         // Summary:
         //     Shows the dialog associated with the passed ViewModel
         void ShowDialog<TViewModel>();
+
         //
         // Summary:
         //     Shows the dialog associated with the passed ViewModel.
@@ -22,6 +26,7 @@ namespace Moody.Core.Services
         //     Shows the dialog associated with the passed ViewModel.
         //     Returns the 'ReturnParameters' set in the dialog ViewModel
         TReturn ShowDialog<TViewModel, TReturn>();
+
         //
         // Summary:
         //     Shows the dialog associated with the passed ViewModel.
@@ -38,6 +43,7 @@ namespace Moody.Core.Services
         // Summary:
         //     Get's the current ReturnParameters
         object? GetReturnParameters<TReturn>();
+
         //
         // Summary:
         //     Set's the ReturnParameters

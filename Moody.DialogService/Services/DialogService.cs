@@ -39,6 +39,7 @@ namespace Moody.Core.Services
 
             foreach (var exportedType in type.GetTypeInfo().Assembly.DefinedTypes.Where(t => t.GetCustomAttribute<DialogModuleAttribute>() != null))
             {
+                //TODO: Make this customizable
                 var vm = Type.GetType($"{exportedType.FullName}ViewModel, {exportedType.Assembly.FullName}");
 
                 if (vm == null) throw new Exception($"ViewModel not found for {exportedType.Name} at {exportedType.Namespace}ViewModel. Make sure it follows the MVVM pattern (Example, namespace.thing.Page1 -> namespace.thing.Page1ViewModel).");
@@ -103,7 +104,6 @@ namespace Moody.Core.Services
             ReturnParameters = default;
 
             var dialog = new DialogWindowShell();
-
 
             EventHandler? closeEventHandler = null;
 
