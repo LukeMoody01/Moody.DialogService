@@ -49,7 +49,6 @@ private void ConfigureServices(IServiceCollection services)
 {
     services.AddSingleton<IDialogService, DialogService>();
 }
-
 ```
 After you have added it to your IoC Conatiner, you can now start using it in your ViewModels!
 ```c#
