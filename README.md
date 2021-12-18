@@ -28,8 +28,8 @@ DialogService.AutoRegisterDialogs<App>();
 ```
 The reason we pass through App, is so that the AutoRegister knows what assembly to look into.
 
-NOTE: Your "Dialog" CANNOT be a window. It will have to be a UserControl or something like that.
-This is because the Service uses a "DialogShell" and injects the Content into the shell content.
+NOTE: Your "Dialog" CANNOT be a window. It will have to be a type of UserControl.
+This is because the service uses a "DialogShell" and injects the UserControl into the shell content.
 
 Also, for AutoRegister to work, you will need to add the 'DialogModule' attribute in the code behind of the desired Dialogs you would like to register.
 ```c#
@@ -112,9 +112,7 @@ public void SomeMethodInDialog()
 ```
 Once the above dialog closes, the expectedObject will be true (bool).
 
-Now how you handle closing the dialog is up to you. But ensure you set the ReturnParameters before closing!
-
-Thats all! You can get more info by using the package!
+Now how you handle closing the dialog is up to you, But ensure you set the ReturnParameters before closing!
 
 If you have any questions or comments, please send me a message on one of the platforms below!
 
