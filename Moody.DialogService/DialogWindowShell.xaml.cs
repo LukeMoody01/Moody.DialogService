@@ -1,6 +1,6 @@
 using System.Windows;
 
-namespace Moody.DialogControls
+namespace Moody.Core.DialogControls
 {
     public partial class DialogWindowShell : Window
     {

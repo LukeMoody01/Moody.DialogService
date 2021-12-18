@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using Moody.DialogService;
+using Moody.Core.Services;
 using Ninject.Modules;
 using System;
 
@@ -23,7 +23,7 @@ namespace Moody.WPF.IoC
         private void RegisterServices()
         {
             Bind<IServiceProvider>().ToConstant(App.ServiceProvider).InSingletonScope();
-            Bind<IDialogService>().To<DialogService.DialogService>().InSingletonScope();
+            Bind<IDialogService>().To<DialogService>().InSingletonScope();
         }
     }
 }

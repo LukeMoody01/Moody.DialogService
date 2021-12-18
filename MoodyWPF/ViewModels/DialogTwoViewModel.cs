@@ -1,4 +1,4 @@
-﻿using Moody.DialogService;
+﻿using Moody.Core.Services;
 using Moody.WPF.Commands;
 using System.Windows.Input;
 

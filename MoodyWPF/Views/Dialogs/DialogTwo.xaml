@@ -2,7 +2,7 @@
     x:Class="Moody.WPF.DialogTwo"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:moody="clr-namespace:Moody.DialogService.Settings;assembly=Moody.DialogService"
+    xmlns:moody="clr-namespace:Moody.Core.Settings;assembly=Moody.DialogService"
     moody:DialogSettings.DialogName="Dialog Two"
     moody:DialogSettings.WindowStyle="None"
     DataContext="{Binding DialogTwoViewModel, Source={StaticResource ViewModelLocator}}">

@@ -1,4 +1,4 @@
-﻿using Moody.DialogService.Attributes;
+﻿using Moody.Core.Attributes;
 using System.Windows.Controls;
 
 namespace Moody.WPF

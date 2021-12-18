@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using Moody.DialogService;
+using Moody.Core.Services;
 using Moody.WPF.IoC;
-using System;
 using System.Windows;
 
 namespace Moody.WPF
@@ -24,14 +23,14 @@ namespace Moody.WPF
         {
             var services = new ServiceCollection();
 
-            services.AddSingleton<IDialogService, DialogService.DialogService>();
+            services.AddSingleton<IDialogService, DialogService>();
 
             ServiceProvider = services.BuildServiceProvider();
         }
 
         private void ConfigureDialogs()
         {
-            DialogService.DialogService.AutoRegisterDialogs<App>();
+            DialogService.AutoRegisterDialogs<App>();
         }
 
         protected override void OnStartup(StartupEventArgs e)

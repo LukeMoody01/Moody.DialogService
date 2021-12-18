@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace Moody.DialogService.Settings
+namespace Moody.Core.Settings
 {
     public static class DialogSettings 
     {

@@ -1,15 +1,14 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using Moody.DialogControls;
-using Moody.DialogService.Attributes;
-using Moody.DialogService.Settings;
+using Moody.Core.DialogControls;
+using Moody.Core.Settings;
+using Moody.Core.Attributes;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Windows;
 
-namespace Moody.DialogService
+namespace Moody.Core.Services
 {
     public class DialogService : IDialogService
     {
