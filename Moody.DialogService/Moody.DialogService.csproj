@@ -10,6 +10,7 @@
     <RepositoryUrl>https://github.com/LukeMoody01/MoodyDialog</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Version>1.1.0</Version>
   </PropertyGroup>
 
   <ItemGroup>

@@ -28,6 +28,8 @@ namespace Moody.DialogService
         //     Returns the 'ReturnParameters' set in the dialog ViewModel.
         TReturn ShowDialog<TViewModel, TReturn>(Action<string> closeCallback);
 
+        void CloseDialog<TViewModel>();
+
         //
         // Summary:
         //     Get's the current ReturnParameters

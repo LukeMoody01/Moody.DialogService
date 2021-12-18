@@ -17,6 +17,7 @@ namespace Moody.WPF.IoC
         {
             Bind<MainWindowViewModel>().ToSelf().InTransientScope();
             Bind<DialogOneViewModel>().ToSelf().InTransientScope();
+            Bind<DialogTwoViewModel>().ToSelf().InTransientScope();
         }
 
         private void RegisterServices()

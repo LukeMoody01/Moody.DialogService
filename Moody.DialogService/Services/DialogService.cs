@@ -4,6 +4,7 @@ using Moody.DialogService.Attributes;
 using Moody.DialogService.Settings;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Windows;
@@ -15,6 +16,7 @@ namespace Moody.DialogService
         private readonly IServiceProvider _serviceProvider;
 
         static Dictionary<Type, Type> _mappings = new Dictionary<Type, Type>();
+        static Dictionary<Type, DialogWindowShell> _windowMappings = new Dictionary<Type, DialogWindowShell>();
 
         public DefaultDialogSettings Settings { get; set; } = new DefaultDialogSettings();
 
@@ -72,14 +74,17 @@ namespace Moody.DialogService
             return ShowDialogReturnInternal<TReturn>(type, closeCallback);
         }
 
-        public void CloseDialog()
-        {
-            //TODO: Write implementation
-        }
-
         public void CloseDialog<TViewModel>()
         {
-            //TODO: Write implementation
+            var type = _mappings[typeof(TViewModel)];
+
+            if (!_windowMappings.ContainsKey(type)) return;
+
+            var dialogToClose = _windowMappings[type];
+            if (dialogToClose == null) return;
+
+            dialogToClose.Close();
+            _windowMappings.Remove(type);
         }
 
         public object? GetReturnParameters<TReturn>()
@@ -99,6 +104,7 @@ namespace Moody.DialogService
             ReturnParameters = default;
 
             var dialog = new DialogWindowShell();
+
 
             EventHandler? closeEventHandler = null;
 
@@ -132,7 +138,9 @@ namespace Moody.DialogService
             dialog.WindowStyle = dialog.WindowStyle == WindowStyle.SingleBorderWindow ? Settings.DialogWindowDefaultStyle : dialog.WindowStyle;
             dialog.Title = dialog.Title ?? Settings.DialogWindowDefaultTitle;
 
+            _windowMappings.Add(type, dialog);
             dialog.ShowDialog();
+            _windowMappings.Remove(type);
         }
 
         private TReturn ShowDialogReturnInternal<TReturn>(Type type, Action<string>? closeCallback = null)

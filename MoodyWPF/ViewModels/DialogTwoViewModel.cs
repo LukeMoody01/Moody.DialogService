@@ -4,29 +4,23 @@ using System.Windows.Input;
 
 namespace Moody.WPF
 {
-    public class DialogOneViewModel 
+    public class DialogTwoViewModel
     {
         private readonly IDialogService _dialogService;
 
-        public ICommand ShowDialogTwoCommand { get; }
         public ICommand CloseThisDialogCommand { get; }
 
-        public DialogOneViewModel(IDialogService dialogService)
+
+        public DialogTwoViewModel(IDialogService dialogService)
         {
             _dialogService = dialogService;
 
-            ShowDialogTwoCommand = new DelegateCommand(ShowDialogTwo);
             CloseThisDialogCommand = new DelegateCommand(CloseThisDialog);
-        }
-
-        private void ShowDialogTwo()
-        {
-            _dialogService.ShowDialog<DialogTwoViewModel>();
         }
 
         private void CloseThisDialog()
         {
-            _dialogService.CloseDialog<DialogOneViewModel>();
+            _dialogService.CloseDialog<DialogTwoViewModel>();
         }
     }
 }

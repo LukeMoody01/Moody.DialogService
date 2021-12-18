@@ -11,8 +11,27 @@
     DataContext="{Binding DialogOneViewModel, Source={StaticResource ViewModelLocator}}"
     d:DesignHeight="450" d:DesignWidth="800">
     <Grid Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height=".2*"/>
+            <RowDefinition Height=".4*"/>
+            <RowDefinition Height=".4*"/>
+        </Grid.RowDefinitions>
         <TextBlock 
+            Grid.Row="0"
+            HorizontalAlignment="Center"
             Margin="20"
             Text="Hi, I am Dialog One"/>
+        <Button 
+            Grid.Row="1"
+            Margin="8"
+            Padding="8"
+            Content="Close This Dialog!"
+            Command="{Binding CloseThisDialogCommand}" />
+        <Button 
+            Grid.Row="2"
+            Margin="8"
+            Padding="8"
+            Content="Open Dialog Two!"
+            Command="{Binding ShowDialogTwoCommand}" />
     </Grid>
 </UserControl>
