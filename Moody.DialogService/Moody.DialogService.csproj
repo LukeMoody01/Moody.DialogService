@@ -5,12 +5,12 @@
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
     <Authors>Luke Moody</Authors>
-    <Description>Moody.DialogService is a service designed to handle dialogs/windows in your WPF application all in one place.</Description>
+    <Description>Moody DialogService is a service designed to handle dialogs in an MVVM pattern (No more code behind!).</Description>
     <PackageIcon>moodyIcon.jpg</PackageIcon>
     <RepositoryUrl>https://github.com/LukeMoody01/MoodyDialog</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <Version>1.1.1</Version>
+    <Version>1.1.2</Version>
   </PropertyGroup>
 
   <ItemGroup>
