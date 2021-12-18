@@ -16,9 +16,9 @@ namespace Moody.DialogService
 
         static Dictionary<Type, Type> _mappings = new Dictionary<Type, Type>();
 
-        public object? ReturnParameters { get; set; }
-
         public DefaultDialogSettings Settings { get; set; } = new DefaultDialogSettings();
+
+        public object? ReturnParameters { get; set; }
 
         public DialogService(IServiceProvider serviceProvider)
         {
@@ -70,6 +70,16 @@ namespace Moody.DialogService
         {
             var type = _mappings[typeof(TViewModel)];
             return ShowDialogReturnInternal<TReturn>(type, closeCallback);
+        }
+
+        public void CloseDialog()
+        {
+            //TODO: Write implementation
+        }
+
+        public void CloseDialog<TViewModel>()
+        {
+            //TODO: Write implementation
         }
 
         public object? GetReturnParameters<TReturn>()

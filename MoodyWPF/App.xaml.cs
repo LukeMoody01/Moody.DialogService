@@ -1,5 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Moody.DialogService;
+using Moody.WPF.IoC;
+using System;
 using System.Windows;
 
 namespace Moody.WPF
@@ -9,33 +11,34 @@ namespace Moody.WPF
     /// </summary>
     public partial class App : Application
     {
-        private ServiceProvider serviceProvider;
+        //TODO: Look more into this... not sure how I feel about it
+        public static ServiceProvider ServiceProvider { get; private set; }
 
         public App()
         {
-            ServiceCollection services = new ServiceCollection();
-            ConfigureServices(services);
-            serviceProvider = services.BuildServiceProvider();
+            ConfigureServiceCollection();
+            ConfigureDialogs();
+        }
+
+        private void ConfigureServiceCollection()
+        {
+            var services = new ServiceCollection();
+
+            services.AddSingleton<IDialogService, DialogService.DialogService>();
+
+            ServiceProvider = services.BuildServiceProvider();
+        }
+
+        private void ConfigureDialogs()
+        {
+            DialogService.DialogService.AutoRegisterDialogs<App>();
         }
 
         protected override void OnStartup(StartupEventArgs e)
         {
+            IocKernel.Initialize(new IocConfiguration());
+
             base.OnStartup(e);
-
-            Window window = new MainWindow();
-            window.DataContext = serviceProvider.GetRequiredService<MainWindowViewModel>();
-            window.Show();
-        }
-
-        private void ConfigureServices(IServiceCollection services)
-        {
-            services.AddSingleton<IDialogService, DialogService.DialogService>();
-            services.AddScoped<MainWindowViewModel>();
-
-            // You can register your dialogs like this, or through the module attribute (Seen below)
-            DialogService.DialogService.RegisterDialog<DialogOne, DialogOneViewModel>();
-
-            DialogService.DialogService.AutoRegisterDialogs<App>();
         }
     }
 }

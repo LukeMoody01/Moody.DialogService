@@ -8,6 +8,7 @@
     moody:DialogSettings.DialogName="Dialog One"
     moody:DialogSettings.WindowStyle="ToolWindow"
     mc:Ignorable="d" 
+    DataContext="{Binding DialogOneViewModel, Source={StaticResource ViewModelLocator}}"
     d:DesignHeight="450" d:DesignWidth="800">
     <Grid Background="White">
         <TextBlock 
