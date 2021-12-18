@@ -21,7 +21,12 @@ namespace Moody.WPF
 
         private void ShowDialogTwo()
         {
-            _dialogService.ShowDialog<DialogTwoViewModel>();
+            var isSuccess = _dialogService.ShowDialog<DialogTwoViewModel, bool>();
+
+            if (isSuccess)
+            {
+                //Do some code
+            }
         }
 
         private void CloseThisDialog()

@@ -26,6 +26,8 @@ namespace Moody.WPF
                 DialogWindowDefaultStyle = System.Windows.WindowStyle.None,
                 DialogWindowDefaultTitle = "Window",
             });
+
+            var defaultSettings = _dialogService.GetDefaultDialogSettings();
         }
 
         public void ShowDialog()
