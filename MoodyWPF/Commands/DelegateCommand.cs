@@ -6,7 +6,9 @@ namespace Moody.WPF.Commands
     public class DelegateCommand : ICommand
     {
         private readonly Action _execute;
-        private readonly Func<bool> _canExecute;
+        private readonly Func<bool>? _canExecute;
+
+        public event EventHandler? CanExecuteChanged;
 
         public DelegateCommand(Action execute, Func<bool> canExecute = null)
         {
@@ -24,13 +26,12 @@ namespace Moody.WPF.Commands
             _execute();
         }
 
-        public event EventHandler CanExecuteChanged;
-
         public void RaiseCanExecuteChanged()
         {
             var handler = CanExecuteChanged;
             if (handler != null)
+            {
                 handler(this, EventArgs.Empty);
+            }
         }
-    }
 }
