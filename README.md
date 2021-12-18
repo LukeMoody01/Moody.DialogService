@@ -5,7 +5,7 @@
 </p>
 
 <p align="center">
-    Moody DialogService is a service designed to handle windows/dialogs all in one place for you WPF application.
+    Moody DialogService is a service designed to handle dialogs in an MVVM pattern (No more code behind!).
 </p>
 
 # How to use it?
@@ -13,9 +13,11 @@
 ### Setup
 Before using the DialogService, we need to make sure the view is registered against the desired ViewModel (For later use).
 
-You can register the dialogs in the App.xaml.cs
+Also, you need to make sure your IServiceCollection has all the services registered, otherwise the service will not work. Why?
+This is because when we activate a view, we need to resolve any services you may be passing in the code behind.. (Although you shouldn't be).
+So if its not registered, we will have problems..
 
-You have 2 options on registering Dialogs
+Anyway, You have 2 options on registering Dialogs
 #### Manual Register
 ```c#
 DialogService.RegisterDialog<DialogOne, DialogOneViewModel>();
@@ -26,7 +28,7 @@ DialogService.AutoRegisterDialogs<App>();
 ```
 The reason we pass through App, is so that the AutoRegister knows what assembly to look into.
 
-NOTE: Your "Window/Dialog" CANNOT be a window. It will have to be a UserControl or something like that.
+NOTE: Your "Dialog" CANNOT be a window. It will have to be a UserControl or something like that.
 This is because the Service uses a "DialogShell" and injects the Content into the shell content.
 
 Also, for AutoRegister to work, you will need to add the 'DialogModule' attribute in the code behind of the desired Dialogs you would like to register.
@@ -60,6 +62,11 @@ public MainWindowViewModel(IDialogService dialogService)
 public void ShowSomeDialog()
 {
     _dialogService.ShowDialog<SomeDialogViewModel>();
+}
+
+public void CloseSomeDialog()
+{
+    _dialogService.CloseDialog<SomeDialogViewModel>();
 }
 ```
 
@@ -109,4 +116,12 @@ Now how you handle closing the dialog is up to you. But ensure you set the Retur
 
 Thats all! You can get more info by using the package!
 
-This is my first package, woo!
+If you have any questions or comments, please send me a message on one of the platforms below!
+
+[![LinkedIn][linkedin-shield]][linkedin-url]
+[![Discord][discord-shield]][discord-url]
+
+[discord-shield]: https://img.shields.io/badge/Discord-Moody-orange
+[discord-url]: https://discord.com/users/269162855255769089
+[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
+[linkedin-url]: https://www.linkedin.com/in/luke-moody-0482651a6/
