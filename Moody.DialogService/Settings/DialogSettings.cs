@@ -2,11 +2,20 @@
 
 namespace Moody.Core.Settings
 {
+    /// <summary>
+    /// Represents the Settings defined in the xaml
+    /// </summary>
     public static class DialogSettings 
     {
+        /// <summary>
+        /// The Dialog Window Name
+        /// </summary>
         public static readonly DependencyProperty DialogNameProperty = 
             DependencyProperty.RegisterAttached("DialogName", typeof(string), typeof(DialogSettings), new PropertyMetadata(defaultValue: null, propertyChangedCallback: DialogNameChanged));
 
+        /// <summary>
+        /// The Dialog Window Style
+        /// </summary>
         public static readonly DependencyProperty WindowStyleProperty =
             DependencyProperty.RegisterAttached("WindowStyle", typeof(WindowStyle), typeof(DialogSettings), new PropertyMetadata(defaultValue: WindowStyle.SingleBorderWindow, propertyChangedCallback: WindowStyleChanged));
 

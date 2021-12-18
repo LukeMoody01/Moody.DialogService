@@ -10,6 +10,13 @@ using System.Windows;
 
 namespace Moody.Core.Services
 {
+    /// <summary>
+    /// Represents implementation Dialog Service.
+    /// </summary>
+    /// <remarks>
+    /// A ViewModel that injects this interface can open, close, 
+    /// and return parameters during the showing and closing of Dialogs.
+    /// </remarks>
     public class DialogService : IDialogService
     {
         private readonly IServiceProvider _serviceProvider;
@@ -17,17 +24,35 @@ namespace Moody.Core.Services
         static Dictionary<Type, Type> _mappings = new Dictionary<Type, Type>();
         static Dictionary<Type, DialogWindowShell> _windowMappings = new Dictionary<Type, DialogWindowShell>();
 
+        /// <summary>
+        /// The namespace of the ViewModels
+        /// </summary>
         public static string ViewModelNamespace { get; set; } = string.Empty;
 
+        /// <summary>
+        /// The default settings for the dialog windows
+        /// </summary>
         public DefaultDialogSettings Settings { get; private set; } = new DefaultDialogSettings();
 
+        /// <summary>
+        /// The return parameters from the dialog
+        /// </summary>
         public object? ReturnParameters { get; private set; }
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="serviceProvider">The provider needed for Dependency Injection</param>
         public DialogService(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
         }
 
+        /// <summary>
+        /// Registers the view against the requeted ViewModel
+        /// </summary>
+        /// <typeparam name="TView">Dialog View</typeparam>
+        /// <typeparam name="TViewModel">Dialog ViewModel</typeparam>
         public static void RegisterDialog<TView, TViewModel>()
         {
             if (_mappings.Contains(new KeyValuePair<Type, Type>(typeof(TView), typeof(TViewModel)))) return;
@@ -35,6 +60,12 @@ namespace Moody.Core.Services
             _mappings.Add(typeof(TViewModel), typeof(TView));
         }
 
+        /// <summary>
+        /// Automatically registers the Views against the ViewModels
+        /// Using the Dialog Attribute in the code behind
+        /// </summary>
+        /// <typeparam name="T">The assembly of the App</typeparam>
+        /// <exception cref="Exception">The exception thrown when a ViewModel cannot be located</exception>
         public static void AutoRegisterDialogs<T>()
         {
             var type = typeof(T);
@@ -60,30 +91,57 @@ namespace Moody.Core.Services
             }
         }
 
+        /// <summary>
+        /// Shows the dialog associated with the passed ViewModel.
+        /// </summary>
+        /// <typeparam name="TViewModel">The associated ViewModel to the requested View</typeparam>
         public void ShowDialog<TViewModel>()
         {
             var type = _mappings[typeof(TViewModel)];
             ShowDialogInternal(type, null);
         }
 
+        /// <summary>
+        ///  Shows the dialog associated with the passed ViewModel.
+        ///  Once the dialog has been closed, the callback will be called
+        /// </summary>
+        /// <typeparam name="TViewModel">The associated ViewModel to the requested View</typeparam>
+        /// <param name="closeCallback">The callback called once the dialog has been requested to close</param>
         public void ShowDialog<TViewModel>(Action<string> closeCallback)
         {
             var type = _mappings[typeof(TViewModel)];
             ShowDialogInternal(type, closeCallback);
         }
 
+        /// <summary>
+        ///  Shows the dialog associated with the passed ViewModel.
+        /// </summary>
+        /// <typeparam name="TViewModel">The associated ViewModel to the requested View</typeparam>
+        /// <typeparam name="TReturn">The expected return type</typeparam>
+        /// <returns>Returns the 'ReturnParameters' set in the dialog ViewModel</returns>
         public TReturn ShowDialog<TViewModel, TReturn>()
         {
             var type = _mappings[typeof(TViewModel)];
             return ShowDialogReturnInternal<TReturn>(type);
         }
 
+        /// <summary>
+        ///  Shows the dialog associated with the passed ViewModel.
+        /// </summary>
+        /// <typeparam name="TViewModel">The associated ViewModel to the requested View</typeparam>
+        /// <typeparam name="TReturn">The expected return type</typeparam>
+        /// <param name="closeCallback">The callback called once the dialog has been requested to close</param>
+        /// <returns>Returns the 'ReturnParameters' set in the dialog ViewModel</returns>
         public TReturn ShowDialog<TViewModel, TReturn>(Action<string> closeCallback)
         {
             var type = _mappings[typeof(TViewModel)];
             return ShowDialogReturnInternal<TReturn>(type, closeCallback);
         }
 
+        /// <summary>
+        /// Closes the dialog associated with the passed ViewModel
+        /// </summary>
+        /// <typeparam name="TViewModel">The associated ViewModel to the requested View</typeparam>
         public void CloseDialog<TViewModel>()
         {
             var type = _mappings[typeof(TViewModel)];
@@ -97,22 +155,39 @@ namespace Moody.Core.Services
             _windowMappings.Remove(type);
         }
 
-        public object? GetReturnParameters<TReturn>()
+        /// <summary>
+        /// Get's the current ReturnParameters
+        /// </summary>
+        /// <typeparam name="TReturn">The expected return type</typeparam>
+        /// <returns>Returns the ReturnParameters as the requested type</returns>
+        public TReturn? GetReturnParameters<TReturn>()
         {
             try { return (TReturn)ReturnParameters; }
             catch { return default(TReturn); }
         }
 
+        /// <summary>
+        /// Set's the ReturnParameters
+        /// </summary>
+        /// <param name="returnParameters">The value of the expected return parameters</param>
         public void SetReturnParameters(object? returnParameters)
         {
             ReturnParameters = returnParameters;
         }
 
+        /// <summary>
+        /// Set's the DefaultDialogSettings
+        /// </summary>
+        /// <param name="dialogSettings">The value of the expected default settings</param>
         public void SetDefaultDialogSettings(DefaultDialogSettings dialogSettings)
         {
             Settings = dialogSettings;
         }
 
+        /// <summary>
+        /// Get's the current Default Dialog Settings
+        /// </summary>
+        /// <returns>Returns the Default Dialog Settings</returns>
         public DefaultDialogSettings GetDefaultDialogSettings()
         {
             return Settings;

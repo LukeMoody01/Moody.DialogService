@@ -3,55 +3,75 @@ using System;
 
 namespace Moody.Core.Services
 {
+    /// <summary>
+    /// Represents Dialog Service.
+    /// </summary>
+    /// <remarks>
+    /// A ViewModel that injects this interface can open, close, 
+    /// and return parameters during the showing and closing of Dialogs.
+    /// </remarks>
     public interface IDialogService
     {
-        //
-        // Summary:
-        //     Shows the dialog associated with the passed ViewModel
+        /// <summary>
+        /// Shows the dialog associated with the passed ViewModel.
+        /// </summary>
+        /// <typeparam name="TViewModel">The associated ViewModel to the requested View</typeparam>
         void ShowDialog<TViewModel>();
 
-        //
-        // Summary:
-        //     Shows the dialog associated with the passed ViewModel.
-        //     Once the dialog has been closed, the callback will be called
+        /// <summary>
+        ///  Shows the dialog associated with the passed ViewModel.
+        ///  Once the dialog has been closed, the callback will be called
+        /// </summary>
+        /// <typeparam name="TViewModel">The associated ViewModel to the requested View</typeparam>
+        /// <param name="closeCallback">The callback called once the dialog has been requested to close</param>
         void ShowDialog<TViewModel>(Action<string> closeCallback);
 
-        //
-        // Summary:
-        //     Shows the dialog associated with the passed ViewModel.
-        //     Returns the 'ReturnParameters' set in the dialog ViewModel
+        /// <summary>
+        ///  Shows the dialog associated with the passed ViewModel.
+        /// </summary>
+        /// <typeparam name="TViewModel">The associated ViewModel to the requested View</typeparam>
+        /// <typeparam name="TReturn">The expected return type</typeparam>
+        /// <returns>Returns the 'ReturnParameters' set in the dialog ViewModel</returns>
         TReturn ShowDialog<TViewModel, TReturn>();
 
-        //
-        // Summary:
-        //     Shows the dialog associated with the passed ViewModel.
-        //     Once the dialog has been closed, the callback will be called
-        //     Returns the 'ReturnParameters' set in the dialog ViewModel.
+        /// <summary>
+        ///  Shows the dialog associated with the passed ViewModel.
+        /// </summary>
+        /// <typeparam name="TViewModel">The associated ViewModel to the requested View</typeparam>
+        /// <typeparam name="TReturn">The expected return type</typeparam>
+        /// <param name="closeCallback">The callback called once the dialog has been requested to close</param>
+        /// <returns>Returns the 'ReturnParameters' set in the dialog ViewModel</returns>
         TReturn ShowDialog<TViewModel, TReturn>(Action<string> closeCallback);
 
-        //
-        // Summary:
-        //     Closes the dialog associated with the passed ViewModel
+        /// <summary>
+        /// Closes the dialog associated with the passed ViewModel
+        /// </summary>
+        /// <typeparam name="TViewModel">The associated ViewModel to the requested View</typeparam>
         void CloseDialog<TViewModel>();
 
-        //
-        // Summary:
-        //     Get's the current ReturnParameters
-        object? GetReturnParameters<TReturn>();
+        /// <summary>
+        /// Get's the current ReturnParameters
+        /// </summary>
+        /// <typeparam name="TReturn">The expected return type</typeparam>
+        /// <returns>Returns the ReturnParameters as the requested type</returns>
+        TReturn? GetReturnParameters<TReturn>();
 
-        //
-        // Summary:
-        //     Set's the ReturnParameters
+        /// <summary>
+        /// Set's the ReturnParameters
+        /// </summary>
+        /// <param name="returnParameters">The value of the expected return parameters</param>
         void SetReturnParameters(object? returnParameters);
 
-        //
-        // Summary:
-        //     Set's the DefaultDialogSettings
+        /// <summary>
+        /// Set's the DefaultDialogSettings
+        /// </summary>
+        /// <param name="dialogSettings">The value of the expected default settings</param>
         void SetDefaultDialogSettings(DefaultDialogSettings dialogSettings);
 
-        //
-        // Summary:
-        //     Get's the DefaultDialogSettings
+        /// <summary>
+        /// Get's the current Default Dialog Settings
+        /// </summary>
+        /// <returns>Returns the Default Dialog Settings</returns>
         DefaultDialogSettings GetDefaultDialogSettings();
     }
 }
