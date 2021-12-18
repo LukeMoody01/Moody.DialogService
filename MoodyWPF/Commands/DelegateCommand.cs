@@ -34,4 +34,5 @@ namespace Moody.WPF.Commands
                 handler(this, EventArgs.Empty);
             }
         }
+    }
 }
