@@ -106,7 +106,7 @@ public void ShowSomeDialogThatReturns()
 //DialogViewModel
 public void SomeMethodInDialog()
 {
-    _dialogService.ReturnParameters = true;
+    _dialogService.SetReturnParameters(true);
 }
 ```
 Once the above dialog closes, the expectedObject will be true (bool).
