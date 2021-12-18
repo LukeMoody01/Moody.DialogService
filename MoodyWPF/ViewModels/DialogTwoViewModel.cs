@@ -20,7 +20,7 @@ namespace Moody.WPF
 
         private void CloseThisDialog()
         {
-            _dialogService.ReturnParameters = true;
+            _dialogService.SetReturnParameters(true);
             _dialogService.CloseDialog<DialogTwoViewModel>();
         }
     }

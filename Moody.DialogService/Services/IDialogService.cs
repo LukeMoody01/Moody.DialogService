@@ -7,11 +7,6 @@ namespace Moody.Core.Services
     {
         //
         // Summary:
-        //     Holds the value of the given return parameters
-        object? ReturnParameters { get; set; }
-
-        //
-        // Summary:
         //     Shows the dialog associated with the passed ViewModel
         void ShowDialog<TViewModel>();
 

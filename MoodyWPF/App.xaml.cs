@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Moody.Core.Services;
+using Moody.WPF.Constants;
 using Moody.WPF.IoC;
 using System.Windows;
 
@@ -30,6 +31,7 @@ namespace Moody.WPF
 
         private void ConfigureDialogs()
         {
+            DialogService.ViewModelNamespace = AppConstants.ViewModelNameSpace;
             DialogService.AutoRegisterDialogs<App>();
         }
 

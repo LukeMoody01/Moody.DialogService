@@ -17,9 +17,11 @@ namespace Moody.Core.Services
         static Dictionary<Type, Type> _mappings = new Dictionary<Type, Type>();
         static Dictionary<Type, DialogWindowShell> _windowMappings = new Dictionary<Type, DialogWindowShell>();
 
-        public DefaultDialogSettings Settings { get; set; } = new DefaultDialogSettings();
+        public static string ViewModelNamespace { get; set; } = string.Empty;
 
-        public object? ReturnParameters { get; set; }
+        public DefaultDialogSettings Settings { get; private set; } = new DefaultDialogSettings();
+
+        public object? ReturnParameters { get; private set; }
 
         public DialogService(IServiceProvider serviceProvider)
         {
@@ -39,8 +41,16 @@ namespace Moody.Core.Services
 
             foreach (var exportedType in type.GetTypeInfo().Assembly.DefinedTypes.Where(t => t.GetCustomAttribute<DialogModuleAttribute>() != null))
             {
-                //TODO: Make this customizable
-                var vm = Type.GetType($"{exportedType.FullName}ViewModel, {exportedType.Assembly.FullName}");
+                Type? vm;
+
+                if (string.IsNullOrWhiteSpace(ViewModelNamespace))
+                {
+                    vm = Type.GetType($"{exportedType.FullName}ViewModel, {exportedType.Assembly.FullName}");
+                }
+                else
+                {
+                    vm = Type.GetType($"{ViewModelNamespace}.{exportedType.Name}ViewModel, {exportedType.Assembly.FullName}");
+                }
 
                 if (vm == null) throw new Exception($"ViewModel not found for {exportedType.Name} at {exportedType.Namespace}ViewModel. Make sure it follows the MVVM pattern (Example, namespace.thing.Page1 -> namespace.thing.Page1ViewModel).");
 
@@ -93,11 +103,20 @@ namespace Moody.Core.Services
             catch { return default(TReturn); }
         }
 
-        public void SetReturnParameters(object? returnParameters) => ReturnParameters = returnParameters;
+        public void SetReturnParameters(object? returnParameters)
+        {
+            ReturnParameters = returnParameters;
+        }
 
-        public void SetDefaultDialogSettings(DefaultDialogSettings dialogSettings) => Settings = dialogSettings;
+        public void SetDefaultDialogSettings(DefaultDialogSettings dialogSettings)
+        {
+            Settings = dialogSettings;
+        }
 
-        public DefaultDialogSettings GetDefaultDialogSettings() => Settings;
+        public DefaultDialogSettings GetDefaultDialogSettings()
+        {
+            return Settings;
+        }
 
         private void ShowDialogInternal(Type type, Action<string>? closeCallback)
         {
@@ -137,8 +156,10 @@ namespace Moody.Core.Services
             dialog.WindowStyle = dialog.WindowStyle == WindowStyle.SingleBorderWindow ? Settings.DialogWindowDefaultStyle : dialog.WindowStyle;
             dialog.Title = dialog.Title ?? Settings.DialogWindowDefaultTitle;
 
-            _windowMappings.Add(type, dialog);
+            _windowMappings.Add(type, dialog); 
+
             dialog.ShowDialog();
+
             _windowMappings.Remove(type);
         }
 
