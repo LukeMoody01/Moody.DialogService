@@ -92,11 +92,11 @@ namespace Moody.Core.Services
             catch { return default(TReturn); }
         }
 
-        public void SetReturnParameters<TReturn>(object? returnParameters) => ReturnParameters = returnParameters;
+        public void SetReturnParameters(object? returnParameters) => ReturnParameters = returnParameters;
 
         public void SetDefaultDialogSettings(DefaultDialogSettings dialogSettings) => Settings = dialogSettings;
 
-        public DefaultDialogSettings GetDefaultDialogSettings(DefaultDialogSettings dialogSettings) => Settings;
+        public DefaultDialogSettings GetDefaultDialogSettings() => Settings;
 
         private void ShowDialogInternal(Type type, Action<string>? closeCallback)
         {

@@ -41,7 +41,7 @@ namespace Moody.Core.Services
         //
         // Summary:
         //     Set's the ReturnParameters
-        void SetReturnParameters<TReturn>(object? returnParameters);
+        void SetReturnParameters(object? returnParameters);
 
         //
         // Summary:
@@ -51,6 +51,6 @@ namespace Moody.Core.Services
         //
         // Summary:
         //     Get's the DefaultDialogSettings
-        DefaultDialogSettings GetDefaultDialogSettings(DefaultDialogSettings dialogSettings);
+        DefaultDialogSettings GetDefaultDialogSettings();
     }
 }
