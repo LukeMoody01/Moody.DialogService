@@ -11,13 +11,21 @@ namespace Moody.Core.Settings
         /// The Dialog Window Name
         /// </summary>
         public static readonly DependencyProperty DialogNameProperty = 
-            DependencyProperty.RegisterAttached("DialogName", typeof(string), typeof(DialogSettings), new PropertyMetadata(defaultValue: null, propertyChangedCallback: DialogNameChanged));
+            DependencyProperty.RegisterAttached(
+                name: "DialogName", 
+                propertyType: typeof(string), 
+                ownerType: typeof(DialogSettings), 
+                defaultMetadata: new PropertyMetadata(defaultValue: null, propertyChangedCallback: DialogNameChanged));
 
         /// <summary>
         /// The Dialog Window Style
         /// </summary>
         public static readonly DependencyProperty WindowStyleProperty =
-            DependencyProperty.RegisterAttached("WindowStyle", typeof(WindowStyle), typeof(DialogSettings), new PropertyMetadata(defaultValue: WindowStyle.SingleBorderWindow, propertyChangedCallback: WindowStyleChanged));
+            DependencyProperty.RegisterAttached(
+                name: "WindowStyle", 
+                propertyType: typeof(WindowStyle), 
+                ownerType: typeof(DialogSettings), 
+                defaultMetadata: new PropertyMetadata(defaultValue: WindowStyle.SingleBorderWindow, propertyChangedCallback: WindowStyleChanged));
 
         /// <summary>
         /// Gets the value for the <see cref="DialogNameProperty"/> attached property.

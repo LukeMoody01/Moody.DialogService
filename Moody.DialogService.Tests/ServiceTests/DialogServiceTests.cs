@@ -12,7 +12,7 @@ namespace Moody.Tests
         {
             //Arrange
             var expectedResult = true;
-            Sut.ReturnParameters = true;
+            Sut.SetReturnParameters(true);
 
             //Act
             var actualResult = Sut.GetReturnParameters<bool>();
@@ -26,7 +26,7 @@ namespace Moody.Tests
         {
             //Arrange
             var expectedResult = true;
-            Sut.ReturnParameters = false;
+            Sut.SetReturnParameters(false);
 
             //Act
             Sut.SetReturnParameters(true);
@@ -45,7 +45,7 @@ namespace Moody.Tests
                 DialogWindowDefaultTitle = "Expected Title",
             };
 
-            Sut.Settings = expectedDefaultDialogSettings;
+            Sut.SetDefaultDialogSettings(expectedDefaultDialogSettings);
 
             //Act
             var actualResult = Sut.GetDefaultDialogSettings();
