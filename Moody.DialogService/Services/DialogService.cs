@@ -215,8 +215,8 @@ namespace Moody.Core.Services
 
             var content = ActivatorUtilities.CreateInstance(_serviceProvider, type);
 
-            if (content is FrameworkElement viewForName && 
-                DialogSettings.GetDialogName(viewForName) != null)
+            if (content is FrameworkElement viewForName 
+                && DialogSettings.GetDialogName(viewForName) != null)
             {
                 dialog.Title = DialogSettings.GetDialogName(viewForName);
             }
