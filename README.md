@@ -5,12 +5,25 @@
 </p>
 
 <p align="center">
-    Moody DialogService is a service designed to handle dialogs in an MVVM pattern (No more code behind!).
+    Moody DialogService is a service designed to handle dialogs in an MVVM way (No more code behind!).
 </p>
 
-# How to use it?
+##### Table of Contents  
+[Setup](#setup)  
+[Consuming the service:](#consuming)
+- [Showing a dialog](#showing)
+- [Closing a dialog](#closing)
+- [Setting the Dialog Settings](#dialogSettings)
+- [Setting default Dialog Settings](#defaultDialogSettings)
+- [Returning Values](#returningValues)
+- [Passing Data](#passingData)
 
-### Setup
+
+## How to use it?
+
+<a name="setup"/>
+
+#### Setup
 Before using the DialogService, we need to make sure the view is registered against the desired ViewModel (For later use).
 
 Also, you need to make sure your IServiceCollection has all the services registered, otherwise the service will not work. Why?
@@ -18,11 +31,11 @@ This is because when we activate a view, we need to resolve any services you may
 So if its not registered, we will have problems..
 
 Anyway, You have 2 options on registering Dialogs
-#### Manual Register
+##### Manual Register
 ```c#
 DialogService.RegisterDialog<DialogOne, DialogOneViewModel>();
 ```
-#### Automatic Register
+##### Automatic Register
 ```c#
 DialogService.AutoRegisterDialogs<App>();
 ```
@@ -42,7 +55,10 @@ public partial class DialogOne : UserControl
     }
 }
 ```
-### Consuming the Service
+
+<a name="consuming"/>
+
+#### Consuming the Service
 To consume the service, you will need to register it to your IoC Container. 
 ```c#
 private void ConfigureServices(IServiceCollection services)
@@ -57,19 +73,34 @@ public MainWindowViewModel(IDialogService dialogService)
 {
     _dialogService = dialogService;
 }
+```
 
+<a name="showing"/>
+
+##### Showing a dialog
+You can show your dialog by calling ShowDialog and passing through your view model type.
+```c#
 public void ShowSomeDialog()
 {
     _dialogService.ShowDialog<SomeDialogViewModel>();
 }
+```
 
+<a name="closing"/>
+
+##### Closing a dialog
+You can close your dialog by calling CloseDialog and passing through your view model type.
+
+```c#
 public void CloseSomeDialog()
 {
     _dialogService.CloseDialog<SomeDialogViewModel>();
 }
 ```
 
-#### Setting the Dialog Settings
+<a name="dialogSettings"/>
+
+##### Setting the Dialog Settings
 When you add these properties in the control, the service will pick up these settings and apply it to this dialog.
 (All dialogs can be unique)
 ```xaml
@@ -80,8 +111,9 @@ When you add these properties in the control, the service will pick up these set
 <!--Some UI Code-->
 </UserControl>
 ```
+<a name="defaultDialogSettings"/>
 
-#### Setting default Dialog Settings
+##### Setting default Dialog Settings
 Incase you want to override the default settings, you can use the SetDefaultDialogSettings method to apply your own defaults!
 ```c#
 _dialogService.SetDefaultDialogSettings(new DefaultDialogSettings()
@@ -90,8 +122,9 @@ _dialogService.SetDefaultDialogSettings(new DefaultDialogSettings()
     DialogWindowDefaultTitle = "Window Title",
 });
 ```
+<a name="returningValues"/>
 
-#### Returning values
+##### Returning values
 Lets say your Dialog needs to pass back an object to your ViewModel.. How would we do that?
 
 We would use the DialogServices 'ReturnParameters'
@@ -112,6 +145,48 @@ public void SomeMethodInDialog()
 Once the above dialog closes, the expectedObject will be true (bool).
 
 Now how you handle closing the dialog is up to you, But ensure you set the ReturnParameters before closing!
+
+<a name="passingData"/>
+
+##### Passing data
+Now lets say you want to pass some data to your Dialog ViewModel.. How would we do that?
+
+We would first mark the Dialog ViewModel as IDialogAware
+
+```c#
+public class DialogOneViewModel : IDialogAware
+{
+    //VM Code
+    
+    //Is called when the dialog is shown
+    public void OnDialogShown(DialogParameters dialogParameters)
+    {
+        //Logic
+    }
+
+    //Is called after setting the data context (Before showing)
+    public void OnDialogInitialized(DialogParameters dialogParameters)
+    {
+        //Logic
+    }
+}
+```
+This interface comes with 2 methods. OnDialogShown and OnDialogInitialized, both of which take in some dialog parameters.
+DialogParameters is just a simple dictionary<string, object> allowing you to pass multiple key value pairs to another ViewModel.
+
+To pass the parameters, we would call ShowDialog and pass them through there:
+```c#
+public void ShowDialog()
+{
+    var parameters = new DialogParameters()
+    {
+         { AppConstants.MY_BOOL_OBJECT, true }
+    };
+
+    _dialogService.ShowDialog<DialogOneViewModel>(parameters);
+}
+```
+We can then use these parameters in the above aware methods (OnDialogShown, OnDialogInitialized) to get these values back.
 
 If you have any questions or comments, please send me a message on one of the platforms below!
 
