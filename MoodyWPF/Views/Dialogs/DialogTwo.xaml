@@ -4,8 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:moody="clr-namespace:Moody.Core.Settings;assembly=Moody.DialogService"
     moody:DialogSettings.DialogName="Dialog Two"
-    moody:DialogSettings.WindowStyle="None"
-    DataContext="{Binding DialogTwoViewModel, Source={StaticResource ViewModelLocator}}">
+    moody:DialogSettings.WindowStyle="None">
     <Grid Background="White">
         <Grid.RowDefinitions>
             <RowDefinition Height=".2*"/>

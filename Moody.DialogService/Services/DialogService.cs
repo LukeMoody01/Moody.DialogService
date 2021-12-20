@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Windows;
+using Moody.Core.Interfaces;
+using Moody.Core.Models;
 
 namespace Moody.Core.Services
 {
@@ -98,7 +100,17 @@ namespace Moody.Core.Services
         public void ShowDialog<TViewModel>()
         {
             var type = _mappings[typeof(TViewModel)];
-            ShowDialogInternal(type, null);
+            ShowDialogInternal(type, null, null);
+        }
+
+        /// <summary>
+        /// Shows the dialog associated with the passed ViewModel.
+        /// </summary>
+        /// <typeparam name="TViewModel">The associated ViewModel to the requested View</typeparam>
+        public void ShowDialog<TViewModel>(DialogParameters dialogParameters)
+        {
+            var type = _mappings[typeof(TViewModel)];
+            ShowDialogInternal(type, null, dialogParameters);
         }
 
         /// <summary>
@@ -107,10 +119,23 @@ namespace Moody.Core.Services
         /// </summary>
         /// <typeparam name="TViewModel">The associated ViewModel to the requested View</typeparam>
         /// <param name="closeCallback">The callback called once the dialog has been requested to close</param>
-        public void ShowDialog<TViewModel>(Action<string> closeCallback)
+        public void ShowDialog<TViewModel>(Action closeCallback)
         {
             var type = _mappings[typeof(TViewModel)];
-            ShowDialogInternal(type, closeCallback);
+            ShowDialogInternal(type, closeCallback, null);
+        }
+
+        /// <summary>
+        ///  Shows the dialog associated with the passed ViewModel.
+        ///  Once the dialog has been closed, the callback will be called
+        /// </summary>
+        /// <typeparam name="TViewModel">The associated ViewModel to the requested View</typeparam>
+        /// <param name="closeCallback">The callback called once the dialog has been requested to close</param>
+        /// <param name="dialogParameters">KeyValuePair of parameters used in IDialogAware ViewModels</param>
+        public void ShowDialog<TViewModel>(DialogParameters dialogParameters, Action closeCallback)
+        {
+            var type = _mappings[typeof(TViewModel)];
+            ShowDialogInternal(type, closeCallback, dialogParameters);
         }
 
         /// <summary>
@@ -122,7 +147,20 @@ namespace Moody.Core.Services
         public TReturn ShowDialog<TViewModel, TReturn>()
         {
             var type = _mappings[typeof(TViewModel)];
-            return ShowDialogReturnInternal<TReturn>(type);
+            return ShowDialogReturnInternal<TReturn>(type, null, null);
+        }
+
+        /// <summary>
+        ///  Shows the dialog associated with the passed ViewModel.
+        /// </summary>
+        /// <typeparam name="TViewModel">The associated ViewModel to the requested View</typeparam>
+        /// <typeparam name="TReturn">The expected return type</typeparam>
+        /// <param name="dialogParameters">KeyValuePair of parameters used in IDialogAware ViewModels</param>
+        /// <returns>Returns the 'ReturnParameters' set in the dialog ViewModel</returns>
+        public TReturn ShowDialog<TViewModel, TReturn>(DialogParameters dialogParameters)
+        {
+            var type = _mappings[typeof(TViewModel)];
+            return ShowDialogReturnInternal<TReturn>(type, null, dialogParameters);
         }
 
         /// <summary>
@@ -132,10 +170,24 @@ namespace Moody.Core.Services
         /// <typeparam name="TReturn">The expected return type</typeparam>
         /// <param name="closeCallback">The callback called once the dialog has been requested to close</param>
         /// <returns>Returns the 'ReturnParameters' set in the dialog ViewModel</returns>
-        public TReturn ShowDialog<TViewModel, TReturn>(Action<string> closeCallback)
+        public TReturn ShowDialog<TViewModel, TReturn>(Action closeCallback)
         {
             var type = _mappings[typeof(TViewModel)];
-            return ShowDialogReturnInternal<TReturn>(type, closeCallback);
+            return ShowDialogReturnInternal<TReturn>(type, closeCallback, null);
+        }
+
+        /// <summary>
+        ///  Shows the dialog associated with the passed ViewModel.
+        /// </summary>
+        /// <typeparam name="TViewModel">The associated ViewModel to the requested View</typeparam>
+        /// <typeparam name="TReturn">The expected return type</typeparam>
+        /// <param name="closeCallback">The callback called once the dialog has been requested to close</param>
+        /// <param name="dialogParameters">KeyValuePair of parameters used in IDialogAware ViewModels</param>
+        /// <returns>Returns the 'ReturnParameters' set in the dialog ViewModel</returns>
+        public TReturn ShowDialog<TViewModel, TReturn>(DialogParameters dialogParameters, Action closeCallback)
+        {
+            var type = _mappings[typeof(TViewModel)];
+            return ShowDialogReturnInternal<TReturn>(type, closeCallback, dialogParameters);
         }
 
         /// <summary>
@@ -193,29 +245,44 @@ namespace Moody.Core.Services
             return Settings;
         }
 
-        private void ShowDialogInternal(Type type, Action<string>? closeCallback)
+        private void ShowDialogInternal(Type type, Action closeCallback, DialogParameters dialogParameters)
         {
             ReturnParameters = default;
 
-            var dialog = new DialogWindowShell();
+            var dialog = CreateDialogInternal(type);
 
-            EventHandler? closeEventHandler = null;
+            FrameworkElement? frameworkElement = dialog.Content as FrameworkElement;
 
-            if (closeCallback != null)
+            SetupEventHandlersInternal(closeCallback, dialog, frameworkElement, dialogParameters);
+            SetupViewModelBindingsInternal(type, frameworkElement, dialogParameters);
+
+            if (frameworkElement != null)
             {
-
-                closeEventHandler = (s, e) =>
-                {
-                    closeCallback(dialog.DialogResult.ToString());
-                    dialog.Closed -= closeEventHandler;
-                };
-
-                dialog.Closed += closeEventHandler;
+                dialog.Height = frameworkElement.Height;
+                dialog.Width = frameworkElement.Width;
             }
 
+            _windowMappings.Add(type, dialog);
+
+            dialog.ShowDialog();
+
+            _windowMappings.Remove(type);
+        }
+
+        private TReturn ShowDialogReturnInternal<TReturn>(Type type, Action closeCallback, DialogParameters dialogParameters)
+        {
+            ShowDialogInternal(type, closeCallback, dialogParameters);
+
+            try { return (TReturn)ReturnParameters; }
+            catch { return default(TReturn); }
+        }
+
+        private DialogWindowShell CreateDialogInternal(Type type)
+        {
+            var dialog = new DialogWindowShell();
             var content = ActivatorUtilities.CreateInstance(_serviceProvider, type);
 
-            if (content is FrameworkElement viewForName 
+            if (content is FrameworkElement viewForName
                 && DialogSettings.GetDialogName(viewForName) != null)
             {
                 dialog.Title = DialogSettings.GetDialogName(viewForName);
@@ -231,19 +298,52 @@ namespace Moody.Core.Services
             dialog.WindowStyle = dialog.WindowStyle == WindowStyle.SingleBorderWindow ? Settings.DialogWindowDefaultStyle : dialog.WindowStyle;
             dialog.Title = dialog.Title ?? Settings.DialogWindowDefaultTitle;
 
-            _windowMappings.Add(type, dialog); 
-
-            dialog.ShowDialog();
-
-            _windowMappings.Remove(type);
+            return dialog;
         }
 
-        private TReturn ShowDialogReturnInternal<TReturn>(Type type, Action<string>? closeCallback = null)
+        private void SetupEventHandlersInternal(Action closeCallback, DialogWindowShell dialog, FrameworkElement? frameworkElement, DialogParameters dialogParameters)
         {
-            ShowDialogInternal(type, closeCallback);
+            EventHandler? closeEventHandler = null;
+            RoutedEventHandler? shownEventHandler = null;
 
-            try { return (TReturn)ReturnParameters; }
-            catch { return default(TReturn); }
+            if (closeCallback != null)
+            {
+                closeEventHandler = (s, e) =>
+                {
+                    closeCallback();
+                    dialog.Closed -= closeEventHandler;
+                };
+
+                dialog.Closed += closeEventHandler;
+            }
+
+            shownEventHandler = (s, e) =>
+            {
+                if (frameworkElement?.DataContext is IDialogAware dialogAware)
+                {
+                    dialogAware.OnDialogShown(dialogParameters);
+                }
+
+                dialog.Loaded -= shownEventHandler;
+            };
+
+            dialog.Loaded += shownEventHandler;
+        }
+
+        private void SetupViewModelBindingsInternal(Type type, FrameworkElement? frameworkElement, DialogParameters dialogParameters = null)
+        {
+            if (frameworkElement == null) return;
+
+            if (frameworkElement.DataContext == null)
+            {
+                var vmType = _mappings.FirstOrDefault(x => x.Value == type).Key;
+                frameworkElement.DataContext = ActivatorUtilities.CreateInstance(_serviceProvider, vmType);
+            }
+
+            if (frameworkElement.DataContext is IDialogAware dialogAware)
+            {
+                dialogAware.OnDialogInitialized(dialogParameters);
+            }
         }
     }
 }

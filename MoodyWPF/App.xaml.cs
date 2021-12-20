@@ -31,7 +31,7 @@ namespace Moody.WPF
 
         private void ConfigureDialogs()
         {
-            DialogService.ViewModelNamespace = AppConstants.ViewModelNameSpace;
+            DialogService.ViewModelNamespace = AppConstants.VIEWMODEL_NAMESPACE;
             DialogService.AutoRegisterDialogs<App>();
         }
 

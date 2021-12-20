@@ -6,10 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:moody="clr-namespace:Moody.Core.Settings;assembly=Moody.DialogService"
     moody:DialogSettings.DialogName="Dialog One"
-    moody:DialogSettings.WindowStyle="ToolWindow"
-    mc:Ignorable="d" 
-    DataContext="{Binding DialogOneViewModel, Source={StaticResource ViewModelLocator}}"
-    d:DesignHeight="450" d:DesignWidth="800">
+    moody:DialogSettings.WindowStyle="ToolWindow">
     <Grid Background="White">
         <Grid.RowDefinitions>
             <RowDefinition Height=".2*"/>

@@ -1,6 +1,8 @@
-﻿using Moody.Core.Services;
+﻿using Moody.Core.Models;
+using Moody.Core.Services;
 using Moody.Core.Settings;
 using Moody.WPF.Commands;
+using Moody.WPF.Constants;
 using System.Windows.Input;
 
 namespace Moody.WPF
@@ -32,7 +34,12 @@ namespace Moody.WPF
 
         public void ShowDialog()
         {
-            _dialogService.ShowDialog<DialogOneViewModel>();
+            var parameters = new DialogParameters()
+            {
+                 { AppConstants.MY_BOOL_OBJECT, true }
+            };
+
+            _dialogService.ShowDialog<DialogOneViewModel>(parameters);
         }
     }
 }

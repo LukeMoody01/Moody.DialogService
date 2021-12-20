@@ -1,4 +1,5 @@
-﻿using Moody.Core.Settings;
+﻿using Moody.Core.Models;
+using Moody.Core.Settings;
 using System;
 
 namespace Moody.Core.Services
@@ -19,12 +20,29 @@ namespace Moody.Core.Services
         void ShowDialog<TViewModel>();
 
         /// <summary>
+        /// Shows the dialog associated with the passed ViewModel.
+        /// </summary>
+        /// <typeparam name="TViewModel">The associated ViewModel to the requested View</typeparam>
+        /// <param name="dialogParameters">KeyValuePair of parameters used in IDialogAware ViewModels</param>
+        void ShowDialog<TViewModel>(DialogParameters dialogParameters);
+
+        /// <summary>
         ///  Shows the dialog associated with the passed ViewModel.
         ///  Once the dialog has been closed, the callback will be called
         /// </summary>
         /// <typeparam name="TViewModel">The associated ViewModel to the requested View</typeparam>
         /// <param name="closeCallback">The callback called once the dialog has been requested to close</param>
-        void ShowDialog<TViewModel>(Action<string> closeCallback);
+        void ShowDialog<TViewModel>(Action closeCallback);
+
+        /// <summary>
+        ///  Shows the dialog associated with the passed ViewModel.
+        ///  Once the dialog has been closed, the callback will be called        
+        /// </summary>
+        /// <typeparam name="TViewModel">The associated ViewModel to the requested View</typeparam>
+        /// <param name="closeCallback">The callback called once the dialog has been requested to close</param>
+        /// <param name="dialogParameters">KeyValuePair of parameters used in IDialogAware ViewModels</param>
+        void ShowDialog<TViewModel>(DialogParameters dialogParameters, Action closeCallback);
+
 
         /// <summary>
         ///  Shows the dialog associated with the passed ViewModel.
@@ -39,9 +57,28 @@ namespace Moody.Core.Services
         /// </summary>
         /// <typeparam name="TViewModel">The associated ViewModel to the requested View</typeparam>
         /// <typeparam name="TReturn">The expected return type</typeparam>
+        /// <param name="dialogParameters">KeyValuePair of parameters used in IDialogAware ViewModels</param>
+        /// <returns></returns>
+        TReturn ShowDialog<TViewModel, TReturn>(DialogParameters dialogParameters);
+
+        /// <summary>
+        ///  Shows the dialog associated with the passed ViewModel.
+        /// </summary>
+        /// <typeparam name="TViewModel">The associated ViewModel to the requested View</typeparam>
+        /// <typeparam name="TReturn">The expected return type</typeparam>
         /// <param name="closeCallback">The callback called once the dialog has been requested to close</param>
         /// <returns>Returns the 'ReturnParameters' set in the dialog ViewModel</returns>
-        TReturn ShowDialog<TViewModel, TReturn>(Action<string> closeCallback);
+        TReturn ShowDialog<TViewModel, TReturn>(Action closeCallback);
+
+        /// <summary>
+        ///  Shows the dialog associated with the passed ViewModel.
+        /// </summary>
+        /// <typeparam name="TViewModel">The associated ViewModel to the requested View</typeparam>
+        /// <typeparam name="TReturn">The expected return type</typeparam>
+        /// <param name="closeCallback">The callback called once the dialog has been requested to close</param>
+        /// <param name="dialogParameters">KeyValuePair of parameters used in IDialogAware ViewModels</param>
+        /// <returns>Returns the 'ReturnParameters' set in the dialog ViewModel</returns>
+        TReturn ShowDialog<TViewModel, TReturn>(DialogParameters dialogParameters, Action closeCallback);
 
         /// <summary>
         /// Closes the dialog associated with the passed ViewModel

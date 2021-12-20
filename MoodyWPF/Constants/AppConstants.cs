@@ -2,6 +2,10 @@
 {
     public class AppConstants
     {
-        public const string ViewModelNameSpace = "Moody.WPF";
+        //NameSpaces
+        public const string VIEWMODEL_NAMESPACE = "Moody.WPF";
+
+        //DialogConstants
+        public const string MY_BOOL_OBJECT = nameof(MY_BOOL_OBJECT);
     }
 }
