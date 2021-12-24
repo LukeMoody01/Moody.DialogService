@@ -14,11 +14,12 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B5113125-6AEC-4E1D-A178-7649EDEF2EB4}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
+		..\..\..\Desktop\moodyIcon.jpg = ..\..\..\Desktop\moodyIcon.jpg
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{E65D9572-902D-4149-A2BF-702E0BDBC861}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Moody.DialogService.Tests", "Moody.DialogService.Tests\Moody.DialogService.Tests.csproj", "{60416B88-82C3-4922-997E-BAAA0D224EB9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Moody.DialogService.Tests", "Moody.DialogService.Tests\Moody.DialogService.Tests.csproj", "{60416B88-82C3-4922-997E-BAAA0D224EB9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

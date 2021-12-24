@@ -39,7 +39,7 @@ namespace Moody.Core.Services
         /// <summary>
         /// The return parameters from the dialog
         /// </summary>
-        public object? ReturnParameters { get; private set; }
+        public object ReturnParameters { get; private set; }
 
         /// <summary>
         /// Constructor
@@ -74,7 +74,7 @@ namespace Moody.Core.Services
 
             foreach (var exportedType in type.GetTypeInfo().Assembly.DefinedTypes.Where(t => t.GetCustomAttribute<DialogModuleAttribute>() != null))
             {
-                Type? vm;
+                Type vm;
 
                 if (string.IsNullOrWhiteSpace(ViewModelNamespace))
                 {
@@ -212,7 +212,7 @@ namespace Moody.Core.Services
         /// </summary>
         /// <typeparam name="TReturn">The expected return type</typeparam>
         /// <returns>Returns the ReturnParameters as the requested type</returns>
-        public TReturn? GetReturnParameters<TReturn>()
+        public TReturn GetReturnParameters<TReturn>()
         {
             try { return (TReturn)ReturnParameters; }
             catch { return default(TReturn); }
@@ -222,7 +222,7 @@ namespace Moody.Core.Services
         /// Set's the ReturnParameters
         /// </summary>
         /// <param name="returnParameters">The value of the expected return parameters</param>
-        public void SetReturnParameters(object? returnParameters)
+        public void SetReturnParameters(object returnParameters)
         {
             ReturnParameters = returnParameters;
         }
@@ -251,7 +251,7 @@ namespace Moody.Core.Services
 
             var dialog = CreateDialogInternal(type);
 
-            FrameworkElement? frameworkElement = dialog.Content as FrameworkElement;
+            FrameworkElement frameworkElement = dialog.Content as FrameworkElement;
 
             SetupEventHandlersInternal(closeCallback, dialog, frameworkElement, dialogParameters);
             SetupViewModelBindingsInternal(type, frameworkElement, dialogParameters);
@@ -301,10 +301,10 @@ namespace Moody.Core.Services
             return dialog;
         }
 
-        private void SetupEventHandlersInternal(Action closeCallback, DialogWindowShell dialog, FrameworkElement? frameworkElement, DialogParameters dialogParameters)
+        private void SetupEventHandlersInternal(Action closeCallback, DialogWindowShell dialog, FrameworkElement frameworkElement, DialogParameters dialogParameters)
         {
-            EventHandler? closeEventHandler = null;
-            RoutedEventHandler? shownEventHandler = null;
+            EventHandler closeEventHandler = null;
+            RoutedEventHandler shownEventHandler = null;
 
             if (closeCallback != null)
             {
@@ -330,7 +330,7 @@ namespace Moody.Core.Services
             dialog.Loaded += shownEventHandler;
         }
 
-        private void SetupViewModelBindingsInternal(Type type, FrameworkElement? frameworkElement, DialogParameters dialogParameters = null)
+        private void SetupViewModelBindingsInternal(Type type, FrameworkElement frameworkElement, DialogParameters dialogParameters = null)
         {
             if (frameworkElement == null) return;
 

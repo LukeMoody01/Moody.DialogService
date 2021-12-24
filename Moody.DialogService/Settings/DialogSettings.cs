@@ -32,9 +32,9 @@ namespace Moody.Core.Settings
         /// </summary>
         /// <param name="obj">The target element.</param>
         /// <returns>The <see cref="DialogNameProperty"/> attached to the <paramref name="obj"/> element.</returns>
-        public static string? GetDialogName(DependencyObject obj)
+        public static string GetDialogName(DependencyObject obj)
         {
-            return (string?)obj.GetValue(DialogNameProperty);
+            return (string)obj.GetValue(DialogNameProperty);
         }
 
         /// <summary>
@@ -52,7 +52,7 @@ namespace Moody.Core.Settings
         /// </summary>
         /// <param name="obj">The target element.</param>
         /// <param name="value">The value to attach.</param>
-        public static void SetDialogName(DependencyObject obj, string? value)
+        public static void SetDialogName(DependencyObject obj, string value)
         {
             obj.SetValue(DialogNameProperty, value);
         }
@@ -69,7 +69,7 @@ namespace Moody.Core.Settings
 
         private static void DialogNameChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var value = (string?)e.NewValue;
+            var value = (string)e.NewValue;
             SetDialogName(d, value);
         }
 

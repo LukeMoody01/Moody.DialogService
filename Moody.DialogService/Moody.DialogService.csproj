@@ -1,18 +1,25 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0-windows</TargetFramework>
-    <Nullable>enable</Nullable>
+    <TargetFrameworks>net461;net471;netcoreapp3.1;net5.0-windows;net6.0-windows</TargetFrameworks>
     <UseWPF>true</UseWPF>
     <Authors>Luke Moody</Authors>
-    <Description>Moody DialogService is a service designed to handle dialogs in an MVVM pattern (No more code behind!).</Description>
+    <Description>Moody DialogService is a service designed to handle dialogs in an MVVM way (No more code behind!).</Description>
     <PackageIcon>moodyIcon.jpg</PackageIcon>
     <RepositoryUrl>https://github.com/LukeMoody01/MoodyDialog</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
-    <Version>1.2.2</Version>
+	<UseWPF>True</UseWPF>
+    <Version>1.4.0</Version>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\moodyIcon.jpg">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />

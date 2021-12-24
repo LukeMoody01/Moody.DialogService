@@ -91,13 +91,13 @@ namespace Moody.Core.Services
         /// </summary>
         /// <typeparam name="TReturn">The expected return type</typeparam>
         /// <returns>Returns the ReturnParameters as the requested type</returns>
-        TReturn? GetReturnParameters<TReturn>();
+        TReturn GetReturnParameters<TReturn>();
 
         /// <summary>
         /// Set's the ReturnParameters
         /// </summary>
         /// <param name="returnParameters">The value of the expected return parameters</param>
-        void SetReturnParameters(object? returnParameters);
+        void SetReturnParameters(object returnParameters);
 
         /// <summary>
         /// Set's the DefaultDialogSettings
