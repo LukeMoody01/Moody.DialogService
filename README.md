@@ -5,7 +5,7 @@
 </p>
 
 <p align="center">
-    Moody DialogService is a service designed to handle dialogs in an MVVM way (No more code behind!).
+    Moody DialogService is a service designed to handle dialogs in an MVVM way for WPF (No more code behind!).
 </p>
 
 ##### Table of Contents  
