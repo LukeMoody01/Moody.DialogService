@@ -12,13 +12,7 @@ using Moody.Core.Models;
 
 namespace Moody.Core.Services
 {
-    /// <summary>
-    /// Represents implementation Dialog Service.
-    /// </summary>
-    /// <remarks>
-    /// A ViewModel that injects this interface can open, close, 
-    /// and return parameters during the showing and closing of Dialogs.
-    /// </remarks>
+    /// <inheritdoc />
     public class DialogService : IDialogService
     {
         private readonly IServiceProvider _serviceProvider;
@@ -26,19 +20,13 @@ namespace Moody.Core.Services
         static Dictionary<Type, Type> _mappings = new Dictionary<Type, Type>();
         static Dictionary<Type, DialogWindowShell> _windowMappings = new Dictionary<Type, DialogWindowShell>();
 
-        /// <summary>
-        /// The namespace of the ViewModels
-        /// </summary>
+        /// <inheritdoc />
         public static string ViewModelNamespace { get; set; } = string.Empty;
 
-        /// <summary>
-        /// The default settings for the dialog windows
-        /// </summary>
+        /// <inheritdoc />
         public DefaultDialogSettings Settings { get; private set; } = new DefaultDialogSettings();
 
-        /// <summary>
-        /// The return parameters from the dialog
-        /// </summary>
+        /// <inheritdoc />
         public object ReturnParameters { get; private set; }
 
         /// <summary>
@@ -50,11 +38,7 @@ namespace Moody.Core.Services
             _serviceProvider = serviceProvider;
         }
 
-        /// <summary>
-        /// Registers the view against the requeted ViewModel
-        /// </summary>
-        /// <typeparam name="TView">Dialog View</typeparam>
-        /// <typeparam name="TViewModel">Dialog ViewModel</typeparam>
+        /// <inheritdoc />
         public static void RegisterDialog<TView, TViewModel>()
         {
             if (_mappings.Contains(new KeyValuePair<Type, Type>(typeof(TView), typeof(TViewModel)))) return;
@@ -62,12 +46,7 @@ namespace Moody.Core.Services
             _mappings.Add(typeof(TViewModel), typeof(TView));
         }
 
-        /// <summary>
-        /// Automatically registers the Views against the ViewModels
-        /// Using the Dialog Attribute in the code behind
-        /// </summary>
-        /// <typeparam name="T">The assembly of the App</typeparam>
-        /// <exception cref="Exception">The exception thrown when a ViewModel cannot be located</exception>
+        /// <inheritdoc />
         public static void AutoRegisterDialogs<T>()
         {
             var type = typeof(T);
@@ -93,107 +72,63 @@ namespace Moody.Core.Services
             }
         }
 
-        /// <summary>
-        /// Shows the dialog associated with the passed ViewModel.
-        /// </summary>
-        /// <typeparam name="TViewModel">The associated ViewModel to the requested View</typeparam>
+        /// <inheritdoc />
         public void ShowDialog<TViewModel>()
         {
             var type = _mappings[typeof(TViewModel)];
             ShowDialogInternal(type, null, null);
         }
 
-        /// <summary>
-        /// Shows the dialog associated with the passed ViewModel.
-        /// </summary>
-        /// <typeparam name="TViewModel">The associated ViewModel to the requested View</typeparam>
+        /// <inheritdoc />
         public void ShowDialog<TViewModel>(DialogParameters dialogParameters)
         {
             var type = _mappings[typeof(TViewModel)];
             ShowDialogInternal(type, null, dialogParameters);
         }
 
-        /// <summary>
-        ///  Shows the dialog associated with the passed ViewModel.
-        ///  Once the dialog has been closed, the callback will be called
-        /// </summary>
-        /// <typeparam name="TViewModel">The associated ViewModel to the requested View</typeparam>
-        /// <param name="closeCallback">The callback called once the dialog has been requested to close</param>
+        /// <inheritdoc />
         public void ShowDialog<TViewModel>(Action closeCallback)
         {
             var type = _mappings[typeof(TViewModel)];
             ShowDialogInternal(type, closeCallback, null);
         }
 
-        /// <summary>
-        ///  Shows the dialog associated with the passed ViewModel.
-        ///  Once the dialog has been closed, the callback will be called
-        /// </summary>
-        /// <typeparam name="TViewModel">The associated ViewModel to the requested View</typeparam>
-        /// <param name="closeCallback">The callback called once the dialog has been requested to close</param>
-        /// <param name="dialogParameters">KeyValuePair of parameters used in IDialogAware ViewModels</param>
+        /// <inheritdoc />
         public void ShowDialog<TViewModel>(DialogParameters dialogParameters, Action closeCallback)
         {
             var type = _mappings[typeof(TViewModel)];
             ShowDialogInternal(type, closeCallback, dialogParameters);
         }
 
-        /// <summary>
-        ///  Shows the dialog associated with the passed ViewModel.
-        /// </summary>
-        /// <typeparam name="TViewModel">The associated ViewModel to the requested View</typeparam>
-        /// <typeparam name="TReturn">The expected return type</typeparam>
-        /// <returns>Returns the 'ReturnParameters' set in the dialog ViewModel</returns>
+        /// <inheritdoc />
         public TReturn ShowDialog<TViewModel, TReturn>()
         {
             var type = _mappings[typeof(TViewModel)];
             return ShowDialogReturnInternal<TReturn>(type, null, null);
         }
 
-        /// <summary>
-        ///  Shows the dialog associated with the passed ViewModel.
-        /// </summary>
-        /// <typeparam name="TViewModel">The associated ViewModel to the requested View</typeparam>
-        /// <typeparam name="TReturn">The expected return type</typeparam>
-        /// <param name="dialogParameters">KeyValuePair of parameters used in IDialogAware ViewModels</param>
-        /// <returns>Returns the 'ReturnParameters' set in the dialog ViewModel</returns>
+        /// <inheritdoc />
         public TReturn ShowDialog<TViewModel, TReturn>(DialogParameters dialogParameters)
         {
             var type = _mappings[typeof(TViewModel)];
             return ShowDialogReturnInternal<TReturn>(type, null, dialogParameters);
         }
 
-        /// <summary>
-        ///  Shows the dialog associated with the passed ViewModel.
-        /// </summary>
-        /// <typeparam name="TViewModel">The associated ViewModel to the requested View</typeparam>
-        /// <typeparam name="TReturn">The expected return type</typeparam>
-        /// <param name="closeCallback">The callback called once the dialog has been requested to close</param>
-        /// <returns>Returns the 'ReturnParameters' set in the dialog ViewModel</returns>
+        /// <inheritdoc />
         public TReturn ShowDialog<TViewModel, TReturn>(Action closeCallback)
         {
             var type = _mappings[typeof(TViewModel)];
             return ShowDialogReturnInternal<TReturn>(type, closeCallback, null);
         }
 
-        /// <summary>
-        ///  Shows the dialog associated with the passed ViewModel.
-        /// </summary>
-        /// <typeparam name="TViewModel">The associated ViewModel to the requested View</typeparam>
-        /// <typeparam name="TReturn">The expected return type</typeparam>
-        /// <param name="closeCallback">The callback called once the dialog has been requested to close</param>
-        /// <param name="dialogParameters">KeyValuePair of parameters used in IDialogAware ViewModels</param>
-        /// <returns>Returns the 'ReturnParameters' set in the dialog ViewModel</returns>
+        /// <inheritdoc />
         public TReturn ShowDialog<TViewModel, TReturn>(DialogParameters dialogParameters, Action closeCallback)
         {
             var type = _mappings[typeof(TViewModel)];
             return ShowDialogReturnInternal<TReturn>(type, closeCallback, dialogParameters);
         }
 
-        /// <summary>
-        /// Closes the dialog associated with the passed ViewModel
-        /// </summary>
-        /// <typeparam name="TViewModel">The associated ViewModel to the requested View</typeparam>
+        /// <inheritdoc />
         public void CloseDialog<TViewModel>()
         {
             var type = _mappings[typeof(TViewModel)];
@@ -207,39 +142,26 @@ namespace Moody.Core.Services
             _windowMappings.Remove(type);
         }
 
-        /// <summary>
-        /// Get's the current ReturnParameters
-        /// </summary>
-        /// <typeparam name="TReturn">The expected return type</typeparam>
-        /// <returns>Returns the ReturnParameters as the requested type</returns>
+        /// <inheritdoc />
         public TReturn GetReturnParameters<TReturn>()
         {
             try { return (TReturn)ReturnParameters; }
             catch { return default(TReturn); }
         }
 
-        /// <summary>
-        /// Set's the ReturnParameters
-        /// </summary>
-        /// <param name="returnParameters">The value of the expected return parameters</param>
+        /// <inheritdoc />
         public void SetReturnParameters(object returnParameters)
         {
             ReturnParameters = returnParameters;
         }
 
-        /// <summary>
-        /// Set's the DefaultDialogSettings
-        /// </summary>
-        /// <param name="dialogSettings">The value of the expected default settings</param>
+        /// <inheritdoc />
         public void SetDefaultDialogSettings(DefaultDialogSettings dialogSettings)
         {
             Settings = dialogSettings;
         }
 
-        /// <summary>
-        /// Get's the current Default Dialog Settings
-        /// </summary>
-        /// <returns>Returns the Default Dialog Settings</returns>
+        /// <inheritdoc />
         public DefaultDialogSettings GetDefaultDialogSettings()
         {
             return Settings;
@@ -306,16 +228,19 @@ namespace Moody.Core.Services
             EventHandler closeEventHandler = null;
             RoutedEventHandler shownEventHandler = null;
 
-            if (closeCallback != null)
+            closeEventHandler = (s, e) =>
             {
-                closeEventHandler = (s, e) =>
+                if (frameworkElement?.DataContext is IDialogAware dialogAware)
                 {
-                    closeCallback();
-                    dialog.Closed -= closeEventHandler;
-                };
+                    dialogAware.OnDialogClosed(dialogParameters);
+                }
 
-                dialog.Closed += closeEventHandler;
-            }
+                if (closeCallback != null) closeCallback();
+
+                dialog.Closed -= closeEventHandler;
+            };
+
+            dialog.Closed += closeEventHandler;
 
             shownEventHandler = (s, e) =>
             {

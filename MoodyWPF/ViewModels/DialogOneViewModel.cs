@@ -52,5 +52,11 @@ namespace Moody.WPF
                 // Somecode based on your object
             }
         }
+
+        public void OnDialogClosed(DialogParameters dialogParameters)
+        {
+            var someValueToSetAfterClose = "someValueToSetAfterClose";
+            _dialogService.SetReturnParameters(someValueToSetAfterClose);
+        }
     }
 }

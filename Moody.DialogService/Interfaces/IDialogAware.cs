@@ -1,4 +1,5 @@
 ﻿using Moody.Core.Models;
+using System.Threading.Tasks;
 
 namespace Moody.Core.Interfaces
 {
@@ -16,5 +17,10 @@ namespace Moody.Core.Interfaces
         /// Called when the Dialog has been initialized.
         /// </summary>
         void OnDialogInitialized(DialogParameters dialogParameters);
+
+        /// <summary>
+        /// Called when the Dialog is closed
+        /// </summary>
+        void OnDialogClosed(DialogParameters dialogParameters);
     }
 }
