@@ -26,7 +26,7 @@
 #### Setup
 Before using the DialogService, we need to make sure the view is registered against the desired ViewModel (For later use).
 
-Also, you need to make sure your IServiceCollection has all the services registered, otherwise the service will not work. Why?
+Also, you need to make sure your IServiceCollection has all the services registered, otherwise, the service will not work. Why?
 This is because when we activate a view, we need to resolve any services you may be passing in the code behind.. (Although you shouldn't be).
 So if its not registered, we will have problems..
 
@@ -39,7 +39,7 @@ DialogService.RegisterDialog<DialogOne, DialogOneViewModel>();
 ```c#
 DialogService.AutoRegisterDialogs<App>();
 ```
-The reason we pass through App, is so that the AutoRegister knows what assembly to look into.
+The reason we pass through App is so that the AutoRegister knows what assembly to look into.
 
 NOTE: Your "Dialog" CANNOT be a window. It will have to be a type of UserControl.
 This is because the service uses a "DialogShell" and injects the UserControl into the shell content.
@@ -178,7 +178,7 @@ public class DialogOneViewModel : IDialogAware
 }
 ```
 This interface comes with 3 methods. OnDialogShown, OnDialogInitialized, and OnDialogClosed, all of which take in some dialog parameters.
-DialogParameters is just a simple dictionary<string, object> allowing you to pass multiple key value pairs to another ViewModel.
+DialogParameters is just a simple dictionary<string, object> allowing you to pass multiple key-value pairs to another ViewModel.
 For example, In OnDialogClosed, you could set some return parameters and use them on the ViewModel that called the dialog.
 
 To pass the parameters, we would call ShowDialog and pass them through there:
