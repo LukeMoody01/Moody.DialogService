@@ -169,10 +169,17 @@ public class DialogOneViewModel : IDialogAware
     {
         //Logic
     }
+    
+    //Is called after the dialog has closed
+    public void OnDialogClosed(DialogParameters dialogParameters)
+    {
+        //Logic
+    }
 }
 ```
-This interface comes with 2 methods. OnDialogShown and OnDialogInitialized, both of which take in some dialog parameters.
+This interface comes with 3 methods. OnDialogShown, OnDialogInitialized, and OnDialogClosed, all of which take in some dialog parameters.
 DialogParameters is just a simple dictionary<string, object> allowing you to pass multiple key value pairs to another ViewModel.
+For example, In OnDialogClosed, you could set some return parameters and use them on the ViewModel that called the dialog.
 
 To pass the parameters, we would call ShowDialog and pass them through there:
 ```c#
